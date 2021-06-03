@@ -103,6 +103,29 @@ def processOrder(request):
 
 	return JsonResponse('Payment submitted..', safe=False)
 
+def search(request):
+	data = cartData(request)
+
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
+
+	query=request.GET['query']
+	if len(query)>100:
+		# allPosts=[]
+		allPosts=Product.objects.none()
+	else:
+		allPostsname=Product.objects.filter(name__icontains=query)
+		allPostsprice=Product.objects.filter(price__icontains=query)
+
+		allPosts = allPostsname.union(allPostsprice)
+	# if allPosts.count() == 0:
+	#     messages.error(request,"No search results found plear search with another query")
+		
+	# allPosts:Post.objects.all()
+	return render(request, 'store/search.html' ,{'allPosts':allPosts,'query':query,'cartItems':cartItems})
+
+
 def aboutus(request):
 	return render(request, 'store/aboutus.html')
 def contactus(request):

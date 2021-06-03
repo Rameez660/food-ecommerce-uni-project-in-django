@@ -1,0 +1,39 @@
+{% extends 'store/main.html' %}
+{% block style %} Food Ordering Website {% endblock  %}
+{% load static %}
+{% block content %}
+
+   <h1>Search Results : </h1>
+   
+   {% if allPosts|length < 1 %}
+   <p>No search results found</p>
+   Your search - <b>{{query}}</b> - didnot match any document suggestion. <br>
+   <ul>
+   <li>Make sure all word are spelled correctly</li>
+   <li>try more general keywords</li>
+   <li>try fewer keywords</li>
+   <li>Try different keywords</li>  
+   </ul>
+    {% else %}
+   Your Search - <b>{{query}}</b>
+	<div class="row">
+		{% for product in allPosts %}
+		<div class="col-lg-4 mt-5">
+			<img class="thumbnail" src="{{product.imageURL}}">
+			<div class="box-element product">
+				<h6><strong>{{product.name}}</strong></h6>
+				<hr>
+
+				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-primary add-btn update-cart">Add to Cart</button>
+				
+				<a class="btn btn-outline-success" href="{% url 'viewdetail' product.id %}">View</a>
+				<h4 style="display: inline-block; float: right"><strong>Rs {{product.price}}</strong></h4>
+
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+   
+   {% endif %}
+
+{% endblock content %}

@@ -16,4 +16,9 @@ urlpatterns = [
 	path('process_order/', views.processOrder, name="process_order"),
 
 	path("viewdetail/<str:myid>",views.viewdetail,name="viewdetail"),
+
+    path('SearchResults/',views.search,name='search'),
+    # path('signup/',views.handlesignup,name='handlesignup'),
+    # path('login/',views.handlelogin,name='handlelogin'),
+    # path('logout/',views.handlelogout,name='handlelogout')
 ]
