@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>{% block style %}{% endblock  %}</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+	<script type="text/javascript">
+		var user = '{{request.user}}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+		function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+	
+	</script>
+
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#4d4dff;">
+	  <a class="navbar-brand" href="{% url 'store' %}">FoodCrave</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item active">
+	        <a class="nav-link" href="{% url 'store' %}">Products <span class="sr-only">(current)</span></a>
+	      </li>
+	 	      <li class="nav-item active">
+	        <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
+	      </li>
+		  <li class="nav-item active">
+	        <a class="nav-link" href="{% url 'contactus' %}">Contact Us</a>
+	      </li>
+	    </ul>
+	    <div class="form-inline my-2 my-lg-0">
+	     	<a href="#"class="btn btn-warning">Login</a>
+	     	
+	     	<a href="{% url 'cart' %}">
+	    		<img  id="cart-icon" src="{% static 'images/cart.png' %}">
+	    	</a>
+	    	<p id="cart-total">{{cartItems}}</p>
+
+	    </div>
+	  </div>
+	</nav>
+
+    <div class="container">
+            <br>
+            {% block content %}
+
+
+            {% endblock content %}
+	</div>
+
+      <!---------------------------------------------------------------------------------------------------------------------------------------------------->
+      <footer class="footer fixed-bottom" style="position:relative;top:100px;z-index:2;background:#4d4dff;padding-top:50px;">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-3">
+                  <div class="footer-widget">
+                     <h4 style="color:white;font-family:Bahnschrift SemiBold;"><b>POPULAR CATEGORIES</b></h4>
+                     <div class="footer-widget-content mt-2">
+                        <div class="open-time">
+                           <ul class="opening-time" style="list-style-type: none;">
+                              <li  style="color:white">
+                                 <p><a href="" style="color:white;font-family:Bahnschrift SemiBold;" data-toggle="modal" data-target="">Fast Food</a></p>
+                              </li>
+                              <li  style="color:white">
+                                 <p><a href="" style="color:white;font-family:Bahnschrift SemiBold;" data-toggle="modal" data-target="">Desi Food</a></p>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-3">
+                  <div class="footer-widget">
+                     <h4 style="color:white;font-family:Bahnschrift SemiBold;"><b>FoodCrave</b></h4>
+                     <div class="footer-widget-content mt-2">
+                        <div class="">
+                           <div class="">
+                              <p><a href="#." style="color:white;font-family:Bahnschrift SemiBold;">HOME</a></p>
+                           </div>
+                        </div>
+                        <div class="">
+                           <div class="">
+                              <p><a href="#." style="color:white">ABOUT US</a></p>
+                           </div>
+                        </div>
+                        <div class="">
+                           <div class="">
+                              <p><a href="#." style="color:white;font-family:Bahnschrift SemiBold;">CONTACT US</a></p>
+                           </div>
+                        </div>
+                        <div class="">
+                           <div class="">
+                              <p><a href="#." style="color:white;font-family:Bahnschrift SemiBold;">TERMS & CONDITIONS</a></p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-3">
+                  <div class="footer-widget">
+                     <h4 style="color:white;font-family:Bahnschrift SemiBold;"><b>STAY IN TOUCH</b></h4>
+                     <div class="footer-widget-content mt-2">
+                        <p  class=""><a href="mailto:info@bidndeal.com" style="color:white;font-family:Bahnschrift SemiBold;">EMAIL: foodcrave@gmail.com </a></p>
+                        <p  class=""><a href="#." style="color:white;font-family:Bahnschrift SemiBold;">REPORT SPAM OR CONTACT US </a></p>
+                        <p  class=""><a href="#." style="color:white;font-family:Bahnschrift SemiBold;">CREATE AN ACCOUNT </a></p>
+                        <p  class=""><a href="#." style="color:white;font-family:Bahnschrift SemiBold;">SIGN IN YOUR ACCOUNT </a></p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-3">
+                  <div class="footer-widget">
+                     <h4 style="color:white;font-family:Bahnschrift SemiBold;"><b>FOLLOW US ON</b></h4>
+                     <div class="footer-widget-content mt-2">
+                        <div class="images-gellary">
+						
+						<div class="row">
+							<div class="col-lg-6">
+								<a href="#." target="_blank"><img src="{% static 'linkedi.png' %}" alt="linkedin Logo" width="90px"></a><span style="color:white;font-weight:bold;">LINKEDIN<span>
+							</div>
+							<div class="col-lg-6">
+								<a href="#." target="_blank"><img src="{% static 'instagram.png' %}" alt="instagram Logo" width="90px"></a><span style="color:white;font-weight:bold;">INSTAGRAM<span>
+							</div>
+							<div class="col-lg-6">
+								<a href="#." target="_blank"><img src="{% static 'facebook.png' %}" alt="facebook Logo" width="90px"></a><span style="color:white;font-weight:bold;">FACEBOOK<span>
+							</div>
+							<div class="col-lg-6">
+								<a href="#." target="_blank"><img src="{% static 'twitter.png' %}" alt="twitter Logo" width="90px"></a><span style="color:white;font-weight:bold;">TWITTER<span>
+							</div>
+						</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="text-center" style="background:#363687;color:white;margin-top:20px;">
+            <div style="color:white;padding-bottom: 5px;padding-top:5px;">Copyright © 2021 <a target="_blank" href="#.">FoodCrave.com</a> - All Rights Reserved. <b> A project of <a target="_blank" href="#.">FoodCrave Team.</a></b></div>
+         </div>
+      </footer>
+	  
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+</body>
+</html>

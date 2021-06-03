@@ -1,0 +1,25 @@
+{% extends 'store/main.html' %}
+{% block style %}E-commerce{% endblock  %}
+{% load static %}
+{% block content %}
+	<div class="row">
+		<div class="col-lg-6">
+			<img class="thumbnail" style="width:100%;height:300px;" src="{{products.imageURL}}">
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element product">
+				<h6><strong>{{products.name}}</strong></h6>
+				<hr>
+
+				<button data-product="{{products.id}}" data-action="add" class="btn btn-outline-primary add-btn update-cart">Add to Cart</button>
+				
+				<h4 style="display: inline-block; float: right"><strong>Rs {{products.price}}</strong></h4>
+
+			</div>  
+	    </div>
+
+
+	</div>
+
+{% endblock content %}
